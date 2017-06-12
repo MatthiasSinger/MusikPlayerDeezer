@@ -4,12 +4,12 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
    <children>
@@ -28,23 +28,27 @@
          <children>
             <VBox prefHeight="256.0" prefWidth="196.0">
                <children>
-                  <Label alignment="CENTER" text="Playlist">
-                     <VBox.margin>
-                        <Insets left="75.0" />
-                     </VBox.margin>
-                  </Label>
+                  <HBox prefHeight="8.0" prefWidth="196.0">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="31.0" prefWidth="127.0" text="Playlist" />
+                        <Button mnemonicParsing="false" prefHeight="3.0" prefWidth="52.0" text="Reset" />
+                     </children>
+                  </HBox>
                   <Separator prefWidth="200.0" />
+                  <ListView prefHeight="216.0" prefWidth="196.0" />
+                  <Label text="Titel" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox prefHeight="225.0" prefWidth="398.0">
                <children>
-                  <Label text="Alben">
+                  <Label prefHeight="36.0" prefWidth="31.0" text="Alben">
                      <VBox.margin>
                         <Insets left="150.0" />
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
+                  <ListView prefHeight="226.0" prefWidth="398.0" />
                </children>
             </VBox>
          </children>
@@ -52,11 +56,6 @@
       <Separator prefWidth="200.0" />
       <HBox prefHeight="35.0" prefWidth="600.0">
          <children>
-            <Label prefHeight="31.0" prefWidth="82.0" text="aktueller Titel">
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </Label>
             <Button mnemonicParsing="false" text="Back" />
             <Button mnemonicParsing="false" text="Play" />
             <Button mnemonicParsing="false" text="Forward" />
@@ -65,9 +64,9 @@
                   <Insets left="10.0" />
                </HBox.margin>
             </Label>
-            <Slider prefHeight="27.0" prefWidth="140.0" />
+            <Slider prefHeight="27.0" prefWidth="174.0" />
             <Label prefHeight="25.0" prefWidth="66.0" text="Dauer" />
-            <Slider prefHeight="24.0" prefWidth="95.0" />
+            <Slider prefHeight="24.0" prefWidth="100.0" />
             <Icon content="HELP_OUTLINE" />
          </children>
       </HBox>
