@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controllers.MainController">
    <children>
       <HBox alignment="CENTER" prefHeight="40.0" prefWidth="600.0" spacing="25.0">
          <children>
-            <Label text="Künstler eingeben" />
-            <TextField prefHeight="25.0" prefWidth="342.0" />
-            <Button mnemonicParsing="false" text="Suche" />
+            <Label fx:id="labSearch" text="Künstler eingeben" />
+            <TextField fx:id="textFieldSearch" prefHeight="25.0" prefWidth="342.0" />
+            <Button fx:id="butSearch" mnemonicParsing="false" onAction="#searchArtist" text="Suche" />
          </children>
          <VBox.margin>
             <Insets />
@@ -29,25 +29,25 @@
                <children>
                   <HBox prefHeight="8.0" prefWidth="196.0">
                      <children>
-                        <Label alignment="CENTER" prefHeight="31.0" prefWidth="127.0" text="Playlist" />
-                        <Button mnemonicParsing="false" prefHeight="3.0" prefWidth="52.0" text="Reset" />
+                        <Label fx:id="labPlaylist" alignment="CENTER" prefHeight="31.0" prefWidth="127.0" text="Playlist" />
+                        <Button fx:id="butReset" mnemonicParsing="false" prefHeight="3.0" prefWidth="52.0" text="Reset" />
                      </children>
                   </HBox>
                   <Separator prefWidth="200.0" />
-                  <ListView prefHeight="216.0" prefWidth="196.0" />
-                  <Label text="Titel" />
+                  <ListView fx:id="listViewPlaylist" prefHeight="216.0" prefWidth="196.0" />
+                  <Label fx:id="labTitel" text="Titel" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox prefHeight="225.0" prefWidth="398.0">
                <children>
-                  <Label prefHeight="36.0" prefWidth="31.0" text="Alben">
+                  <Label fx:id="labAlben" prefHeight="36.0" prefWidth="31.0" text="Alben">
                      <VBox.margin>
                         <Insets left="150.0" />
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <ListView prefHeight="226.0" prefWidth="398.0" />
+                  <ListView fx:id="listViewResults" prefHeight="226.0" prefWidth="398.0" />
                </children>
             </VBox>
          </children>
@@ -55,17 +55,17 @@
       <Separator prefWidth="200.0" />
       <HBox prefHeight="35.0" prefWidth="600.0">
          <children>
-            <Button mnemonicParsing="false" text="Back" />
-            <Button mnemonicParsing="false" text="Play" />
-            <Button mnemonicParsing="false" text="Forward" />
-            <Label prefHeight="28.0" prefWidth="51.0" text="aktuelle Zeit">
+            <Button fx:id="butBack" mnemonicParsing="false" text="Back" />
+            <Button fx:id="butPlay" mnemonicParsing="false" text="Play" />
+            <Button fx:id="butForward" mnemonicParsing="false" text="Forward" />
+            <Label fx:id="labCurrentTime" prefHeight="28.0" prefWidth="51.0" text="aktuelle Zeit">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Label>
-            <Slider prefHeight="27.0" prefWidth="174.0" />
-            <Label prefHeight="25.0" prefWidth="66.0" text="Dauer" />
-            <Slider prefHeight="24.0" prefWidth="100.0" />
+            <Slider fx:id="sliderTime" prefHeight="27.0" prefWidth="174.0" />
+            <Label fx:id="labDuration" prefHeight="25.0" prefWidth="66.0" text="Dauer" />
+            <Slider fx:id="sliderVolume" prefHeight="24.0" prefWidth="100.0" />
          </children>
       </HBox>
    </children>
