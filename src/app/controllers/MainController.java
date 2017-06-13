@@ -91,11 +91,17 @@ public class MainController
 					break;
 				}
 			}
-			this.getTracks(alb);
+			try
+			{
+				this.getTracks(alb);
+			} catch (IOException e1)
+			{
+				e1.printStackTrace();
+			}
 		});
 	}
 	
-	private void getTracks(Album a)
+	private void getTracks(Album a) throws IOException
 	{
 		ObservableList<String> list = FXCollections.observableArrayList();
 		List<Track> tracks = deezerRequest.loadTracks(a);

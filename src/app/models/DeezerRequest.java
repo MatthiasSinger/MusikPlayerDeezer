@@ -16,7 +16,6 @@ public class DeezerRequest
 	public List<Artist> loadArtists(String query) throws IOException
 	{
 		List<Artist> artists = DeezerService.searchForArtists(query);
-		System.out.println(artists.size());
 		return artists;
 	}
 	
@@ -27,10 +26,9 @@ public class DeezerRequest
 		return albums;
 	}
 
-	public List<Track> loadTracks(Album a)
+	public List<Track> loadTracks(Album a) throws IOException
 	{
-		Tracks tracks = a.getTracks();
-		List<Track> tracklist = tracks.getTracks();
+		List<Track> tracklist = DeezerService.loadAlbumTracks(a);
 		return tracklist;
 	}
 }
