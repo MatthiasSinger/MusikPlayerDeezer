@@ -38,10 +38,17 @@ public class MainController
 	@FXML Button butForward;
 	@FXML Slider sliderTime;
 	@FXML Slider sliderVolume;
+	ObservableList<String> playlistList = FXCollections.observableArrayList();
 	
 	MusicPlayer musicPlayer = new MusicPlayer();
 	Playlist playlist = new Playlist();
 	DeezerRequest deezerRequest = new DeezerRequest();
+	
+	@FXML
+	public void initialize()
+	{
+		listViewPlaylist.setItems(playlistList);
+	}
 	
 	@FXML
 	private void searchArtist() throws IOException
@@ -108,8 +115,24 @@ public class MainController
 		tracks.forEach(tra -> list.add(tra.getTitle()));
 		listViewResults.setItems(list);
 		listViewResults.setOnMouseClicked(e -> {
-			System.out.println("TODO");
+			String selected = (String)listViewResults.getSelectionModel().getSelectedItem();
+			Track track = null;
+			for (int i = 0; i < tracks.size(); i++)
+			{
+				if (tracks.get(i).getTitle().equals(selected))
+				{
+					track = tracks.get(i);
+					break;
+				}
+			}
+			this.addTrack(track);
 		});
+	}
+
+	private void addTrack(Track track)
+	{
+		playlist.addTrack(track);
+		playlistList.add(track.getTitle());
 	}
 	
 }
