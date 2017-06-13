@@ -1,6 +1,7 @@
 package app.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -41,14 +42,14 @@ public class Playlist
 	 */
 	public void backward()
 	{
-		pos = (pos-1)%trackList.size();
+		pos = Math.floorMod(pos-1, trackList.size());
 	}
 	/**
 	 * @return aktueller Track
 	 */
 	public Track getCurrentTrack()
 	{
-		return trackList.get(pos);
+		 return new ArrayList<Track>(trackList.values()).get(pos);
 	}
 	/**
 	 * Playlist wird auf leeren Zustand gesetzt
@@ -61,5 +62,13 @@ public class Playlist
 	public Track getTrack(String title)
 	{
 		return trackList.get(title);
+	}
+	public void setPos(int n)
+	{
+		this.pos = n;
+	}
+	public int getPos()
+	{
+		return this.pos;
 	}
 }

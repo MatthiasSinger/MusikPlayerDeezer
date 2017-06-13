@@ -55,9 +55,9 @@
       <Separator prefWidth="200.0" />
       <HBox prefHeight="35.0" prefWidth="600.0">
          <children>
-            <Button fx:id="butBack" mnemonicParsing="false" text="Back" />
+            <Button fx:id="butBack" mnemonicParsing="false" onAction="#backward" text="Back" />
             <Button fx:id="butPlay" mnemonicParsing="false" text="Play" />
-            <Button fx:id="butForward" mnemonicParsing="false" text="Forward" />
+            <Button fx:id="butForward" mnemonicParsing="false" onAction="#forward" text="Forward" />
             <Label fx:id="labCurrentTime" prefHeight="28.0" prefWidth="51.0" text="aktuelle Zeit">
                <HBox.margin>
                   <Insets left="10.0" />

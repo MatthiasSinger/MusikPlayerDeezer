@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseButton;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
@@ -49,10 +50,39 @@ public class MainController
 	{
 		listViewPlaylist.setItems(playlistDisplay);
 		listViewPlaylist.setOnMouseClicked(e -> {
-			String title = (String)listViewPlaylist.getSelectionModel().getSelectedItem();
-			Track t = playlist.getTrack(title);
-			musicPlayer.startSong(t);
+			MouseButton button = e.getButton();
+			if (button.equals(MouseButton.PRIMARY))
+			{
+				String title = (String)listViewPlaylist.getSelectionModel().getSelectedItem();
+				Track t = playlist.getTrack(title);
+				musicPlayer.startSong(t);
+				int n = listViewPlaylist.getSelectionModel().getSelectedIndex();
+				playlist.setPos(n);
+				listViewPlaylist.getFocusModel().focus(n);
+			}
+			else if (button.equals(MouseButton.SECONDARY))
+			{
+				String title = (String)listViewPlaylist.getSelectionModel().getSelectedItem();
+				playlistDisplay.remove(listViewPlaylist.getSelectionModel().getSelectedItem());
+				playlist.removeTrack(title);
+			}
 		});
+	}
+	
+	@FXML
+	private void forward()
+	{
+		playlist.forward();
+		listViewPlaylist.getFocusModel().focus(playlist.getPos());
+		musicPlayer.startSong(playlist.getCurrentTrack());
+	}
+	
+	@FXML
+	private void backward()
+	{
+		playlist.backward();
+		listViewPlaylist.getFocusModel().focus(playlist.getPos());
+		musicPlayer.startSong(playlist.getCurrentTrack());
 	}
 	
 	@FXML
