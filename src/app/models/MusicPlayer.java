@@ -34,6 +34,10 @@ public class MusicPlayer
 	
 	public void startSong(Track t)
 	{
+		if (mediaPlayer != null)
+		{
+			mediaPlayer.stop();
+		}
 		Media m = new Media(t.getPreview().toString());
 		mediaPlayer = new MediaPlayer(m);
 		mediaPlayer.setVolume(0.5);

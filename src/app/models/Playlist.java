@@ -1,6 +1,9 @@
 package app.models;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import deezerapi.objects.Track;
 
 /**
@@ -10,22 +13,21 @@ import deezerapi.objects.Track;
  */
 public class Playlist
 {
-	private ArrayList<Track> trackList = new ArrayList<>();
+	private Map<String,Track> trackList = new LinkedHashMap<>();
 	private int pos = 0;
 	/**
 	 * @param t Track der hinzugefügt werden soll
 	 */
 	public void addTrack(Track t)
 	{
-		trackList.add(t);
+		trackList.put(t.getTitle(), t);
 	}
 	/**
 	 * @param t Track der entfernt werden soll
 	 */
-	public void removeTrack(Track t)
+	public void removeTrack(String track)
 	{
-		int indexOf = trackList.indexOf(t);
-		trackList.remove(indexOf);
+		trackList.remove(track);
 	}
 	/**
 	 * Nächster Song 
@@ -53,7 +55,11 @@ public class Playlist
 	 */
 	public void reset()
 	{
-		trackList = new ArrayList<>();
+		trackList = new LinkedHashMap<String,Track>();
 		pos = 0;
+	}
+	public Track getTrack(String title)
+	{
+		return trackList.get(title);
 	}
 }

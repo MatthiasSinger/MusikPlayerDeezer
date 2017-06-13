@@ -38,7 +38,7 @@ public class MainController
 	@FXML Button butForward;
 	@FXML Slider sliderTime;
 	@FXML Slider sliderVolume;
-	ObservableList<String> playlistList = FXCollections.observableArrayList();
+	ObservableList<String> playlistDisplay = FXCollections.observableArrayList();
 	
 	MusicPlayer musicPlayer = new MusicPlayer();
 	Playlist playlist = new Playlist();
@@ -47,7 +47,12 @@ public class MainController
 	@FXML
 	public void initialize()
 	{
-		listViewPlaylist.setItems(playlistList);
+		listViewPlaylist.setItems(playlistDisplay);
+		listViewPlaylist.setOnMouseClicked(e -> {
+			String title = (String)listViewPlaylist.getSelectionModel().getSelectedItem();
+			Track t = playlist.getTrack(title);
+			musicPlayer.startSong(t);
+		});
 	}
 	
 	@FXML
@@ -132,7 +137,7 @@ public class MainController
 	private void addTrack(Track track)
 	{
 		playlist.addTrack(track);
-		playlistList.add(track.getTitle());
+		playlistDisplay.add(track.getTitle());
 	}
 	
 }
