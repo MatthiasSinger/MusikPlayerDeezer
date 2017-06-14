@@ -56,6 +56,7 @@ public class MainController
 				String title = (String)listViewPlaylist.getSelectionModel().getSelectedItem();
 				Track t = playlist.getTrack(title);
 				musicPlayer.startSong(t);
+				butPlay.setText("Pause");
 				int n = listViewPlaylist.getSelectionModel().getSelectedIndex();
 				playlist.setPos(n);
 				listViewPlaylist.getFocusModel().focus(n);
@@ -70,19 +71,49 @@ public class MainController
 	}
 	
 	@FXML
+	private void playButton()
+	{
+		if (!musicPlayer.isPlaying() && !musicPlayer.mediaPlayerNull())
+		{
+			musicPlayer.play();
+			butPlay.setText("Pause");
+		}
+		else
+		{
+			musicPlayer.pause();
+			butPlay.setText("Play");
+		}
+	}
+	
+	@FXML
 	private void forward()
 	{
-		playlist.forward();
-		listViewPlaylist.getFocusModel().focus(playlist.getPos());
-		musicPlayer.startSong(playlist.getCurrentTrack());
+		if (playlistDisplay.size() > 0)
+		{
+			playlist.forward();
+			listViewPlaylist.getFocusModel().focus(playlist.getPos());
+			listViewPlaylist.getSelectionModel().select(playlist.getPos());
+			musicPlayer.startSong(playlist.getCurrentTrack());
+		}
 	}
 	
 	@FXML
 	private void backward()
 	{
-		playlist.backward();
-		listViewPlaylist.getFocusModel().focus(playlist.getPos());
-		musicPlayer.startSong(playlist.getCurrentTrack());
+		if (playlistDisplay.size() > 0)
+		{
+			playlist.backward();
+			listViewPlaylist.getFocusModel().focus(playlist.getPos());
+			listViewPlaylist.getSelectionModel().select(playlist.getPos());
+			musicPlayer.startSong(playlist.getCurrentTrack());
+		}
+	}
+	
+	@FXML
+	private void reset()
+	{
+		playlist.reset();
+		playlistDisplay.clear();
 	}
 	
 	@FXML

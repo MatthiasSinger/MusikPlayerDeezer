@@ -48,4 +48,9 @@ public class MusicPlayer
 	{
 		return isPlaying;
 	}
+	
+	public boolean mediaPlayerNull()
+	{
+		return mediaPlayer == null;
+	}
 }
