@@ -1,6 +1,6 @@
 package app.util;
 
-public interface NextSongListener extends MyListener
+public interface NextSongListener 
 {
 	void nextSong();
 }

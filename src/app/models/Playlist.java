@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import app.util.MyListener;
 import app.util.NextSongListener;
 import app.util.SongChangedListener;
 import deezerapi.objects.Track;

@@ -2,7 +2,6 @@ package app.models;
 
 import java.util.ArrayList;
 
-import app.util.MyListener;
 import app.util.NewTimeListener;
 import app.util.NextSongListener;
 import app.util.SongChangedListener;

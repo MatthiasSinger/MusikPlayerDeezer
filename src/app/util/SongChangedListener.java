@@ -2,7 +2,7 @@ package app.util;
 
 import javafx.util.Duration;
 
-public interface SongChangedListener extends MyListener
+public interface SongChangedListener 
 {
 	void updateTime(Duration d);
 }
