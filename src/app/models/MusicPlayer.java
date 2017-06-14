@@ -1,6 +1,10 @@
 package app.models;
 
+import java.util.ArrayList;
+
 import deezerapi.objects.Track;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -13,6 +17,7 @@ public class MusicPlayer
 {
 	private  MediaPlayer mediaPlayer;
 	private boolean isPlaying = false;
+	private ArrayList<EventHandler> eventHandler = new ArrayList<>();
 	
 	public void play()
 	{
@@ -42,8 +47,24 @@ public class MusicPlayer
 		mediaPlayer = new MediaPlayer(m);
 		mediaPlayer.setVolume(0.5);
 		play();
+		mediaPlayer.setOnEndOfMedia(() -> {
+			notifyHandler();
+		});
 	}
 
+	private void notifyHandler()
+	{
+		for (EventHandler eh : eventHandler)
+		{
+			eh.handle(null);
+		}
+	}
+
+	public void addEventHandler(EventHandler eh)
+	{
+		this.eventHandler.add(eh);
+	}
+	
 	public boolean isPlaying()
 	{
 		return isPlaying;

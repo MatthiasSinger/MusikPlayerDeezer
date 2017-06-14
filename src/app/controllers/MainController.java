@@ -12,6 +12,8 @@ import deezerapi.objects.ArtistAlbums;
 import deezerapi.objects.Track;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
@@ -20,7 +22,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
-public class MainController
+public class MainController implements EventHandler
 {
 
 	@FXML ListView listViewResults;
@@ -68,6 +70,7 @@ public class MainController
 				playlist.removeTrack(title);
 			}
 		});
+		musicPlayer.addEventHandler(this);
 	}
 	
 	@FXML
@@ -199,6 +202,11 @@ public class MainController
 	{
 		playlist.addTrack(track);
 		playlistDisplay.add(track.getTitle());
+	}
+
+	public void handle(Event e)
+	{
+		forward();
 	}
 	
 }
