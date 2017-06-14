@@ -6,12 +6,15 @@ import java.util.List;
 import app.models.DeezerRequest;
 import app.models.MusicPlayer;
 import app.models.Playlist;
+import app.util.NewTimeListener;
 import app.util.NextSongListener;
 import app.util.SongChangedListener;
 import deezerapi.objects.Album;
 import deezerapi.objects.Artist;
 import deezerapi.objects.ArtistAlbums;
 import deezerapi.objects.Track;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
@@ -25,7 +28,7 @@ import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
-public class MainController implements NextSongListener,SongChangedListener
+public class MainController implements NextSongListener,SongChangedListener, NewTimeListener
 {
 
 	@FXML ListView listViewResults;
@@ -45,8 +48,9 @@ public class MainController implements NextSongListener,SongChangedListener
 	@FXML Slider sliderTime;
 	@FXML Slider sliderVolume;
 	ObservableList<String> playlistDisplay = FXCollections.observableArrayList();
+	private boolean dragging;
 	
-	MusicPlayer musicPlayer = new MusicPlayer(this,this);
+	MusicPlayer musicPlayer = new MusicPlayer(this,this,this);
 	Playlist playlist = new Playlist();
 	DeezerRequest deezerRequest = new DeezerRequest();
 	
@@ -78,8 +82,24 @@ public class MainController implements NextSongListener,SongChangedListener
 		sliderVolume.valueProperty().addListener(cl -> {
 			changeVolume(sliderVolume.getValue());
 		});
+		
+		sliderTime.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
+		    @Override
+		    public void changed(ObservableValue<? extends Boolean> obs, Boolean wasChanging, Boolean isNowChanging) {
+		        dragging = true;
+		    	if (!isNowChanging) {
+		        	changeCurrentTime(sliderTime.getValue());
+		        	dragging = false;
+		        }
+		    }
+		});
 	}
 	
+	private void changeCurrentTime(double value)
+	{
+		musicPlayer.changeCurrentTime(value);
+	}
+
 	private void changeVolume(double value)
 	{
 		musicPlayer.changeVolume(value / 100.);
@@ -108,6 +128,7 @@ public class MainController implements NextSongListener,SongChangedListener
 			playlist.forward();
 			listViewPlaylist.getFocusModel().focus(playlist.getPos());
 			listViewPlaylist.getSelectionModel().select(playlist.getPos());
+			listViewPlaylist.scrollTo(playlist.getPos());
 			musicPlayer.startSong(playlist.getCurrentTrack());
 		}
 	}
@@ -129,6 +150,7 @@ public class MainController implements NextSongListener,SongChangedListener
 	{
 		playlist.reset();
 		playlistDisplay.clear();
+		musicPlayer.reset();
 	}
 	
 	@FXML
@@ -219,13 +241,27 @@ public class MainController implements NextSongListener,SongChangedListener
 	@Override
 	public void updateTime(Duration d)
 	{
-		labDuration.setText("0:30");
+		labDuration.setText("00:30");
 	}
 
 	@Override
 	public void nextSong()
 	{
 		forward();
+	}
+
+	@Override
+	public void updateCurrentTime(Duration d)
+	{
+		if (!dragging)
+		{
+			sliderTime.setValue((d.toSeconds()/30.)*100);
+			int seconds = (int)d.toSeconds();
+			int minutes = seconds/60;
+			seconds %= 60;
+			String timeString = String.format("%02d:%02d", minutes,seconds);
+			labCurrentTime.setText(timeString);
+		}
 	}
 	
 

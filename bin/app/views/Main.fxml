@@ -55,16 +55,16 @@
       <HBox prefHeight="35.0" prefWidth="600.0">
          <children>
             <Button fx:id="butBack" mnemonicParsing="false" onAction="#backward" text="Back" />
-            <Button fx:id="butPlay" mnemonicParsing="false" onAction="#playButton" text="Play" />
+            <Button fx:id="butPlay" mnemonicParsing="false" onAction="#playButton" prefHeight="25.0" prefWidth="50.0" text="Play" />
             <Button fx:id="butForward" mnemonicParsing="false" onAction="#forward" text="Forward" />
-            <Label fx:id="labCurrentTime" prefHeight="28.0" prefWidth="51.0" text="aktuelle Zeit">
+            <Label fx:id="labCurrentTime" prefHeight="28.0" prefWidth="29.0" text="--:--">
                <HBox.margin>
                   <Insets left="10.0" />
                </HBox.margin>
             </Label>
-            <Slider fx:id="sliderTime" prefHeight="27.0" prefWidth="174.0" />
-            <Label fx:id="labDuration" prefHeight="25.0" prefWidth="66.0" text="Dauer" />
-            <Slider fx:id="sliderVolume" prefHeight="24.0" prefWidth="100.0" />
+            <Slider fx:id="sliderTime" prefHeight="33.0" prefWidth="174.0" />
+            <Label fx:id="labDuration" prefHeight="31.0" prefWidth="66.0" text="--:--" />
+            <Slider fx:id="sliderVolume" prefHeight="35.0" prefWidth="100.0" />
          </children>
       </HBox>
    </children>

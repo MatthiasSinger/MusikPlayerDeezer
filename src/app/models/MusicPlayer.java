@@ -3,6 +3,7 @@ package app.models;
 import java.util.ArrayList;
 
 import app.util.MyListener;
+import app.util.NewTimeListener;
 import app.util.NextSongListener;
 import app.util.SongChangedListener;
 import deezerapi.objects.Track;
@@ -24,11 +25,13 @@ public class MusicPlayer
 	private boolean isPlaying = false;
 	private NextSongListener nsl;
 	private SongChangedListener scl;
+	private NewTimeListener ntl;
 	
-	public MusicPlayer(NextSongListener nsl, SongChangedListener scl)
+	public MusicPlayer(NextSongListener nsl, SongChangedListener scl, NewTimeListener ntl)
 	{
 		this.nsl = nsl;
 		this.scl = scl;
+		this.ntl = ntl;
 	}
 	
 	public void play()
@@ -58,6 +61,15 @@ public class MusicPlayer
 		Media m = new Media(t.getPreview().toString());
 		mediaPlayer = new MediaPlayer(m);
 		mediaPlayer.setVolume(0.5);
+		mediaPlayer.currentTimeProperty().addListener(cl -> {
+			try
+			{
+				ntl.updateCurrentTime(mediaPlayer.getCurrentTime());
+			} catch (NullPointerException npe)
+			{
+				
+			}
+		});
 		play();
 		mediaPlayer.setOnEndOfMedia(() -> {
 			nsl.nextSong();
@@ -93,6 +105,17 @@ public class MusicPlayer
 		{
 			mediaPlayer.setVolume(d);
 		}
+	}
+
+	public void reset()
+	{
+		mediaPlayer.stop();
+		mediaPlayer = null;
+	}
+
+	public void changeCurrentTime(double value)
+	{
+		mediaPlayer.seek(Duration.seconds((value*30.)/100.));
 	}
 }
 
