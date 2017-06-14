@@ -1,14 +1,9 @@
 package app.models;
 
-import java.util.ArrayList;
-
 import app.util.NewTimeListener;
 import app.util.NextSongListener;
 import app.util.SongChangedListener;
 import deezerapi.objects.Track;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;

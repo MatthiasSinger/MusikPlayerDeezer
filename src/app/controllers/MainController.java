@@ -11,28 +11,25 @@ import app.util.NextSongListener;
 import app.util.SongChangedListener;
 import deezerapi.objects.Album;
 import deezerapi.objects.Artist;
-import deezerapi.objects.ArtistAlbums;
 import deezerapi.objects.Track;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
-import javafx.scene.control.Button;
-import javafx.scene.control.Slider;
 
 public class MainController implements NextSongListener,SongChangedListener, NewTimeListener
 {
 
-	@FXML ListView listViewResults;
-	@FXML ListView listViewPlaylist;
+	@FXML ListView<String> listViewResults;
+	@FXML ListView<String> listViewPlaylist;
 	@FXML Label labAlben;
 	@FXML Label labTitel;
 	@FXML Label labSearch;

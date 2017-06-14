@@ -1,14 +1,12 @@
 package app.models;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import deezerapi.objects.Track;
-import deezerapi.objects.Tracks;
 import deezerapi.objects.Album;
 import deezerapi.objects.Artist;
 import deezerapi.objects.ArtistAlbums;
+import deezerapi.objects.Track;
 import services.DeezerService;
 
 public class DeezerRequest
