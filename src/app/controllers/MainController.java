@@ -6,6 +6,8 @@ import java.util.List;
 import app.models.DeezerRequest;
 import app.models.MusicPlayer;
 import app.models.Playlist;
+import app.util.NextSongListener;
+import app.util.SongChangedListener;
 import deezerapi.objects.Album;
 import deezerapi.objects.Artist;
 import deezerapi.objects.ArtistAlbums;
@@ -19,10 +21,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
+import javafx.util.Duration;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 
-public class MainController implements EventHandler
+public class MainController implements NextSongListener,SongChangedListener
 {
 
 	@FXML ListView listViewResults;
@@ -43,7 +46,7 @@ public class MainController implements EventHandler
 	@FXML Slider sliderVolume;
 	ObservableList<String> playlistDisplay = FXCollections.observableArrayList();
 	
-	MusicPlayer musicPlayer = new MusicPlayer();
+	MusicPlayer musicPlayer = new MusicPlayer(this,this);
 	Playlist playlist = new Playlist();
 	DeezerRequest deezerRequest = new DeezerRequest();
 	
@@ -70,9 +73,18 @@ public class MainController implements EventHandler
 				playlist.removeTrack(title);
 			}
 		});
-		musicPlayer.addEventHandler(this);
+		
+		sliderVolume.setValue(50.);
+		sliderVolume.valueProperty().addListener(cl -> {
+			changeVolume(sliderVolume.getValue());
+		});
 	}
 	
+	private void changeVolume(double value)
+	{
+		musicPlayer.changeVolume(value / 100.);
+	}
+
 	@FXML
 	private void playButton()
 	{
@@ -204,9 +216,17 @@ public class MainController implements EventHandler
 		playlistDisplay.add(track.getTitle());
 	}
 
-	public void handle(Event e)
+	@Override
+	public void updateTime(Duration d)
+	{
+		labDuration.setText("0:30");
+	}
+
+	@Override
+	public void nextSong()
 	{
 		forward();
 	}
 	
+
 }

@@ -5,7 +5,11 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import app.util.MyListener;
+import app.util.NextSongListener;
+import app.util.SongChangedListener;
 import deezerapi.objects.Track;
+import javafx.util.Duration;
 
 /**
  * @author Matze
@@ -16,6 +20,7 @@ public class Playlist
 {
 	private Map<String,Track> trackList = new LinkedHashMap<>();
 	private int pos = 0;
+	
 	/**
 	 * @param t Track der hinzugefügt werden soll
 	 */
@@ -71,4 +76,6 @@ public class Playlist
 	{
 		return this.pos;
 	}
+	
+	
 }

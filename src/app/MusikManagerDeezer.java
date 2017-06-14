@@ -12,6 +12,7 @@ public class MusikManagerDeezer extends Application
 	{
 		Parent root = FXMLLoader.load(getClass().getResource("/app/views/Main.fxml"));
 		primaryStage.setScene(new Scene(root));
+		primaryStage.setTitle("Musik Player -- Deezer");
 	    primaryStage.show();
 	}
 	

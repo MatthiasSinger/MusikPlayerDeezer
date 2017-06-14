@@ -35,7 +35,6 @@
                   </HBox>
                   <Separator prefWidth="200.0" />
                   <ListView fx:id="listViewPlaylist" prefHeight="216.0" prefWidth="196.0" />
-                  <Label fx:id="labTitel" text="Titel" />
                </children>
             </VBox>
             <Separator orientation="VERTICAL" prefHeight="200.0" />

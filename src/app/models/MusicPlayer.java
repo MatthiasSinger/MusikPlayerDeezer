@@ -2,11 +2,16 @@ package app.models;
 
 import java.util.ArrayList;
 
+import app.util.MyListener;
+import app.util.NextSongListener;
+import app.util.SongChangedListener;
 import deezerapi.objects.Track;
 import javafx.event.Event;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 /**
  * 	@author Matze
@@ -17,7 +22,14 @@ public class MusicPlayer
 {
 	private  MediaPlayer mediaPlayer;
 	private boolean isPlaying = false;
-	private ArrayList<EventHandler> eventHandler = new ArrayList<>();
+	private NextSongListener nsl;
+	private SongChangedListener scl;
+	
+	public MusicPlayer(NextSongListener nsl, SongChangedListener scl)
+	{
+		this.nsl = nsl;
+		this.scl = scl;
+	}
 	
 	public void play()
 	{
@@ -48,22 +60,11 @@ public class MusicPlayer
 		mediaPlayer.setVolume(0.5);
 		play();
 		mediaPlayer.setOnEndOfMedia(() -> {
-			notifyHandler();
+			nsl.nextSong();
 		});
+		scl.updateTime(m.getDuration());
 	}
 
-	private void notifyHandler()
-	{
-		for (EventHandler eh : eventHandler)
-		{
-			eh.handle(null);
-		}
-	}
-
-	public void addEventHandler(EventHandler eh)
-	{
-		this.eventHandler.add(eh);
-	}
 	
 	public boolean isPlaying()
 	{
@@ -74,4 +75,24 @@ public class MusicPlayer
 	{
 		return mediaPlayer == null;
 	}
+	
+	
+	public void notifyNextSongListener()
+	{
+		nsl.nextSong();
+	}
+	
+	public void notifySongChangedListener(Duration d)
+	{
+		scl.updateTime(d);
+	}
+
+	public void changeVolume(double d)
+	{
+		if (mediaPlayer != null)
+		{
+			mediaPlayer.setVolume(d);
+		}
+	}
 }
+
