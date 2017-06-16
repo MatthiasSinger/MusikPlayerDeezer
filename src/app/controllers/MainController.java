@@ -5,9 +5,6 @@ import java.io.IOException;
 import app.models.MusicPlayer;
 import app.models.Playlist;
 import app.util.Listener;
-import app.util.NewTimeListener;
-import app.util.NextSongListener;
-import app.util.SongChangedListener;
 import deezerapi.objects.Track;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,7 +17,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
-import javafx.util.Duration;
 
 public class MainController
 {
