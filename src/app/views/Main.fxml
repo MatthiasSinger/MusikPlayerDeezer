@@ -40,13 +40,13 @@
             <Separator orientation="VERTICAL" prefHeight="200.0" />
             <VBox prefHeight="225.0" prefWidth="398.0">
                <children>
-                  <Label fx:id="labAlben" prefHeight="36.0" prefWidth="31.0" text="Alben">
+                  <Label fx:id="labAlben" prefHeight="25.0" prefWidth="87.0" text="Ergebnisse">
                      <VBox.margin>
                         <Insets left="150.0" />
                      </VBox.margin>
                   </Label>
                   <Separator prefWidth="200.0" />
-                  <ListView fx:id="listViewResults" prefHeight="226.0" prefWidth="398.0" />
+                  <ListView fx:id="listViewResults" prefHeight="213.0" prefWidth="398.0" />
                </children>
             </VBox>
          </children>
@@ -64,7 +64,11 @@
             </Label>
             <Slider fx:id="sliderTime" prefHeight="33.0" prefWidth="174.0" />
             <Label fx:id="labDuration" prefHeight="31.0" prefWidth="66.0" text="--:--" />
-            <Slider fx:id="sliderVolume" prefHeight="35.0" prefWidth="100.0" />
+            <Label prefHeight="33.0" prefWidth="41.0" text="Volume" />
+            <Slider fx:id="sliderVolume" prefHeight="35.0" prefWidth="100.0">
+               <padding>
+                  <Insets left="10.0" />
+               </padding></Slider>
          </children>
       </HBox>
    </children>
