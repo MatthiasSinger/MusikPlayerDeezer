@@ -8,11 +8,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-/**
- * 	@author Matze
- *
- *	Kümmert sich um das Abspielen und Stoppen der Musik, außerdem Lautstärke
- */
 public class MusicPlayer
 {
 	private  MediaPlayer mediaPlayer;
