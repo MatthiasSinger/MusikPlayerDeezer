@@ -1,16 +1,13 @@
 package app.controllers;
 
 import java.io.IOException;
-import java.util.List;
 
-import app.models.DeezerRequest;
 import app.models.MusicPlayer;
 import app.models.Playlist;
+import app.util.Listener;
 import app.util.NewTimeListener;
 import app.util.NextSongListener;
 import app.util.SongChangedListener;
-import deezerapi.objects.Album;
-import deezerapi.objects.Artist;
 import deezerapi.objects.Track;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -25,9 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
 
-public class MainController implements NextSongListener,SongChangedListener, NewTimeListener
+public class MainController
 {
-
 	@FXML ListView<String> listViewResults;
 	@FXML ListView<String> listViewPlaylist;
 	@FXML Label labAlben;
@@ -44,16 +40,24 @@ public class MainController implements NextSongListener,SongChangedListener, New
 	@FXML Button butForward;
 	@FXML Slider sliderTime;
 	@FXML Slider sliderVolume;
-	ObservableList<String> playlistDisplay = FXCollections.observableArrayList();
-	private boolean dragging;
 	
-	MusicPlayer musicPlayer = new MusicPlayer(this,this,this);
-	Playlist playlist = new Playlist();
-	DeezerRequest deezerRequest = new DeezerRequest();
+	ObservableList<String> playlistDisplay;
+	Playlist playlist;
+	PlaylistController playlistController;
+	DeezerRequestController deezerRequestController;
+	Listener listener;
+	MusicPlayer musicPlayer;
 	
 	@FXML
 	public void initialize()
 	{
+		playlistDisplay = FXCollections.observableArrayList();
+		playlist = new Playlist();
+		playlistController = new PlaylistController(playlist, playlistDisplay);
+		deezerRequestController = new DeezerRequestController(listViewResults,playlistController);
+		listener = new Listener(this,labDuration,labCurrentTime,sliderTime);
+		musicPlayer = new MusicPlayer(listener,listener,listener);
+		
 		listViewPlaylist.setItems(playlistDisplay);
 		listViewPlaylist.setOnMouseClicked(e -> {
 			MouseButton button = e.getButton();
@@ -77,30 +81,22 @@ public class MainController implements NextSongListener,SongChangedListener, New
 		
 		sliderVolume.setValue(50.);
 		sliderVolume.valueProperty().addListener(cl -> {
-			changeVolume(sliderVolume.getValue());
+			musicPlayer.changeVolume(sliderVolume.getValue()/100.);
 		});
 		
 		sliderTime.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
 		    @Override
 		    public void changed(ObservableValue<? extends Boolean> obs, Boolean wasChanging, Boolean isNowChanging) {
-		        dragging = true;
+		        listener.setDragging(true);
 		    	if (!isNowChanging) {
-		        	changeCurrentTime(sliderTime.getValue());
-		        	dragging = false;
+		        	musicPlayer.changeCurrentTime(sliderTime.getValue());
+		        	listener.setDragging(false);
 		        }
 		    }
 		});
 	}
-	
-	private void changeCurrentTime(double value)
-	{
-		musicPlayer.changeCurrentTime(value);
-	}
 
-	private void changeVolume(double value)
-	{
-		musicPlayer.changeVolume(value / 100.);
-	}
+	
 
 	@FXML
 	private void playButton()
@@ -118,7 +114,7 @@ public class MainController implements NextSongListener,SongChangedListener, New
 	}
 	
 	@FXML
-	private void forward()
+	public void forward()
 	{
 		if (playlistDisplay.size() > 0)
 		{
@@ -153,113 +149,7 @@ public class MainController implements NextSongListener,SongChangedListener, New
 	@FXML
 	private void searchArtist() throws IOException
 	{
-		ObservableList<String> list = FXCollections.observableArrayList();
-		List<Artist> artists = deezerRequest.loadArtists(textFieldSearch.getText());
-		for (int i = 0; i < 20 && i < artists.size(); i++)
-		{
-			list.add(artists.get(i).getName());
-		}
-		listViewResults.setItems(list);
-		listViewResults.setOnMouseClicked(e -> {
-			String selected = (String)listViewResults.getSelectionModel().getSelectedItem();
-			Artist a = null;
-			for (int i = 0; i < artists.size(); i++)
-			{
-				if (artists.get(i).getName().equals(selected))
-				{
-					a = artists.get(i);
-					break;
-				}
-			}
-			try
-			{
-				this.getAlbums(a);
-			} catch (IOException e1)
-			{
-				e1.printStackTrace();
-			}
-		});
+		System.out.println(listViewResults == null);
+		deezerRequestController.searchArtist(textFieldSearch.getText());
 	}
-	
-	private void getAlbums(Artist a) throws IOException
-	{
-		ObservableList<String> list = FXCollections.observableArrayList();
-		List<Album> albums = deezerRequest.loadAlbums(a);
-		albums.forEach(alb -> list.add(alb.getTitle()));
-		listViewResults.setItems(list);
-		listViewResults.setOnMouseClicked(e -> {
-			String selected = (String)listViewResults.getSelectionModel().getSelectedItem();
-			Album alb = null;
-			for (int i = 0; i < albums.size(); i++)
-			{
-				if (albums.get(i).getTitle().equals(selected))
-				{
-					alb = albums.get(i);
-					break;
-				}
-			}
-			try
-			{
-				this.getTracks(alb);
-			} catch (IOException e1)
-			{
-				e1.printStackTrace();
-			}
-		});
-	}
-	
-	private void getTracks(Album a) throws IOException
-	{
-		ObservableList<String> list = FXCollections.observableArrayList();
-		List<Track> tracks = deezerRequest.loadTracks(a);
-		tracks.forEach(tra -> list.add(tra.getTitle()));
-		listViewResults.setItems(list);
-		listViewResults.setOnMouseClicked(e -> {
-			String selected = (String)listViewResults.getSelectionModel().getSelectedItem();
-			Track track = null;
-			for (int i = 0; i < tracks.size(); i++)
-			{
-				if (tracks.get(i).getTitle().equals(selected))
-				{
-					track = tracks.get(i);
-					break;
-				}
-			}
-			this.addTrack(track);
-		});
-	}
-
-	private void addTrack(Track track)
-	{
-		playlist.addTrack(track);
-		playlistDisplay.add(track.getTitle());
-	}
-
-	@Override
-	public void updateTime(Duration d)
-	{
-		labDuration.setText("00:30");
-	}
-
-	@Override
-	public void nextSong()
-	{
-		forward();
-	}
-
-	@Override
-	public void updateCurrentTime(Duration d)
-	{
-		if (!dragging)
-		{
-			sliderTime.setValue((d.toSeconds()/30.)*100);
-			int seconds = (int)d.toSeconds();
-			int minutes = seconds/60;
-			seconds %= 60;
-			String timeString = String.format("%02d:%02d", minutes,seconds);
-			labCurrentTime.setText(timeString);
-		}
-	}
-	
-
 }
